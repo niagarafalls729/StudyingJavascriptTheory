@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      #wrap {
+        display: flex;
+      }
+      #editor {
+        width: 70%;
+        height: 100vh;
+        border: 1px solid #ccc;
+        float: left;
+      }
+      #output {
+        width: 25%;
+        height: 100vh;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        white-space: pre-wrap; /* Preserve whitespace formatting */
+      }
+      .error {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrap">
+      <div id="editor"></div>
+      <button id="runButton">Run</button>
+      <div id="output"></div>
+    </div>
+
+    <script type="module">
+      import * as monaco from "monaco-editor";
+
+      // Monaco Editor 생성
+      const editor = monaco.editor.create(document.getElementById("editor"), {
+        value: "console.log('Hello, Monaco!');",
+        language: "javascript",
+        theme: "vs-dark",
+      });
+
+      // 코드 실행 함수
+      const runCode = () => {
+        const code = editor.getValue(); // 작성된 코드 가져오기
+        const outputDiv = document.getElementById("output");
+
+        // 콘솔에 출력된 내용을 실시간으로 반영
+        const consoleLog = [];
+        const consoleBackup = console.log;
+        console.log = (...args) => {
+          consoleLog.push(args.join(" "));
+          consoleBackup(...args); // 기존 콘솔 로그를 유지
+        };
+
+        try {
+          // 작성된 JavaScript 코드 실행
+          new Function(code)();
+          outputDiv.innerHTML = `<pre>${
+            consoleLog.join("\n") || "Code executed successfully!"
+          }</pre>`;
+        } catch (err) {
+          // 오류가 있을 경우 오류 메시지 출력
+          outputDiv.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+        }
+        // 콘솔 로그 복원
+        console.log = consoleBackup;
+      };
+
+      // 'Run' 버튼 클릭 이벤트 바인딩
+      document.getElementById("runButton").addEventListener("click", runCode);
+
+      // Monaco Editor에서 Ctrl + Enter 키 이벤트 처리
+      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
+        runCode(); // Run 버튼 클릭 대신 실행
+      });
+    </script>
+  </body>
+</html>
