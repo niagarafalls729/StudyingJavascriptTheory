@@ -21,8 +21,10 @@
 │   ├── closures.md   # 클로저
 │   ├── promises.md   # 프로미스와 비동기
 │   ├── this.md       # this 키워드
-├── examples/         # 각 이론의 예제 코드
-└── resources/        # 참고 자료 및 추천 링크
+├── src/              # 에디터 폴더
+│   ├── main.js       # 에디터 실행용 js
+│   ├── style.css     # 에디터 css
+└── index.html        # 에디터 실행용
 ```
 
 
