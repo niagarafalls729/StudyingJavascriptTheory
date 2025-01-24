@@ -8,18 +8,36 @@
       #wrap {
         display: flex;
       }
-      #editor {
-        width: 70%;
-        height: 100vh;
-        border: 1px solid #ccc;
-        float: left;
+      #editor_wrap {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
       }
-      #output {
-        width: 25%;
-        height: 100vh;
+      #editor_js {
+        width: 100%;
+        height: 50%;
         border: 1px solid #ccc;
-        background-color: #f1f1f1;
-        white-space: pre-wrap; /* Preserve whitespace formatting */
+      }
+      #editor_html {
+        width: 100%;
+        height: 50%;
+        border: 1px solid #ccc;
+      }
+      #output_wrap {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        height: 100vh; 
+      }
+      #output_html {
+        width: 100%;
+        height: 50%;
+        border: 1px solid #ccc;
+      }
+      #output_js {
+        width: 100%;
+        height: 50%;
+        border: 1px solid #ccc;
       }
       .error {
         color: red;
@@ -29,55 +47,81 @@
   </head>
   <body>
     <div id="wrap">
-      <div id="editor"></div>
+      <div id="editor_wrap">
+        <div id="editor_html"></div>
+        <div id="editor_js"></div>
+      </div>
       <button id="runButton">Run</button>
-      <div id="output"></div>
+      <div id="output_wrap">
+        <div id="output_html"></div>
+        <div id="output_js"></div>
+      </div>
     </div>
-
+  
     <script type="module">
       import * as monaco from "monaco-editor";
-
-      // Monaco Editor 생성
-      const editor = monaco.editor.create(document.getElementById("editor"), {
+  
+      // Monaco Editor for HTML
+      const editorHtml = monaco.editor.create(document.getElementById("editor_html"), {
+        value: "<div>\n  <h1>Hello, World!</h1>\n  <p>Edit this HTML and see it rendered here!</p>\n</div>",
+        language: "html",
+        theme: "vs-dark",
+      });
+  
+      // Monaco Editor for JavaScript
+      const editorJs = monaco.editor.create(document.getElementById("editor_js"), {
         value: "console.log('Hello, Monaco!');",
         language: "javascript",
         theme: "vs-dark",
       });
-
-      // 코드 실행 함수
+  
+      // Code execution function
       const runCode = () => {
-        const code = editor.getValue(); // 작성된 코드 가져오기
-        const outputDiv = document.getElementById("output");
-
-        // 콘솔에 출력된 내용을 실시간으로 반영
-        const consoleLog = [];
-        const consoleBackup = console.log;
+        const htmlCode = editorHtml.getValue();
+        const jsCode = editorJs.getValue();
+        const outputHtmlDiv = document.getElementById("output_html");
+        const outputJsDiv = document.getElementById("output_js");
+  
+        // Clear previous content
+        outputHtmlDiv.innerHTML = "";
+        outputJsDiv.innerHTML = "";
+  
+        // Customize console.log to output to the output_js div
+        const originalConsoleLog = console.log;
         console.log = (...args) => {
-          consoleLog.push(args.join(" "));
-          consoleBackup(...args); // 기존 콘솔 로그를 유지
+          const logMessage = args.join(" ");
+          const logElement = document.createElement("div");
+          logElement.textContent = logMessage;
+          outputJsDiv.appendChild(logElement);
+          originalConsoleLog(...args); // Keep original behavior
         };
-
+  
         try {
-          // 작성된 JavaScript 코드 실행
-          new Function(code)();
-          outputDiv.innerHTML = `<pre>${
-            consoleLog.join("\n") || "Code executed successfully!"
-          }</pre>`;
+          // Inject HTML into the output_html div
+          outputHtmlDiv.innerHTML = htmlCode;
+  
+          // Execute JavaScript
+          new Function(jsCode)();
         } catch (err) {
-          // 오류가 있을 경우 오류 메시지 출력
-          outputDiv.innerHTML = `<pre class="error">Error: ${err.message}</pre>`;
+          // Display errors in the output_js div
+          const errorElement = document.createElement("div");
+          errorElement.className = "error";
+          errorElement.textContent = `Error: ${err.message}`;
+          outputJsDiv.appendChild(errorElement);
+        } finally {
+          // Restore original console.log
+          console.log = originalConsoleLog;
         }
-        // 콘솔 로그 복원
-        console.log = consoleBackup;
       };
-
-      // 'Run' 버튼 클릭 이벤트 바인딩
+  
+      // 'Run' button click event binding
       document.getElementById("runButton").addEventListener("click", runCode);
-
-      // Monaco Editor에서 Ctrl + Enter 키 이벤트 처리
-      editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => {
-        runCode(); // Run 버튼 클릭 대신 실행
-      });
+  
+      // Add Ctrl+Enter shortcut for both editors
+      const runShortcut = () => runCode();
+      editorHtml.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, runShortcut);
+      editorJs.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, runShortcut);
     </script>
   </body>
+  
 </html>
