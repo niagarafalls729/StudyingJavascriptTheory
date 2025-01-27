@@ -5,40 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <style>
+      body {
+        width: calc(100vw - 20px);
+        height: calc(100vh - 20px);
+        margin: 3px;
+      }
       #wrap {
         display: flex;
+        width: calc(100% - 5px);
+        height: calc(100% - 20px);
       }
       #editor_wrap {
-        flex: 3;
+        flex: 10;
         display: flex;
         flex-direction: column;
-      }
-      #editor_js {
-        width: 100%;
-        height: 50%;
-        border: 1px solid #ccc;
       }
       #editor_html {
         width: 100%;
-        height: 50%;
+        height: 100%;
         border: 1px solid #ccc;
+        min-height: 300px;
       }
+      #editor_js {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ccc;
+        min-height: 300px;
+      }
+
       #output_wrap {
-        flex: 3;
+        flex: 10;
         display: flex;
         flex-direction: column;
-        height: 100vh; 
       }
+
       #output_html {
         width: 100%;
-        height: 50%;
+        height: 100%;
         border: 1px solid #ccc;
+        min-height: 300px;
       }
       #output_js {
         width: 100%;
-        height: 50%;
+        height: 100%;
         border: 1px solid #ccc;
+        min-height: 300px;
       }
+
+      #runButton {
+        height: 20px;
+        width: 100%;
+      }
+
       .error {
         color: red;
         font-weight: bold;
@@ -51,41 +69,48 @@
         <div id="editor_html"></div>
         <div id="editor_js"></div>
       </div>
-      <button id="runButton">Run</button>
       <div id="output_wrap">
         <div id="output_html"></div>
         <div id="output_js"></div>
       </div>
     </div>
-  
+    <button id="runButton">Run</button>
+
     <script type="module">
       import * as monaco from "monaco-editor";
-  
+
       // Monaco Editor for HTML
-      const editorHtml = monaco.editor.create(document.getElementById("editor_html"), {
-        value: "<div>\n  <h1>Hello, World!</h1>\n  <p>Edit this HTML and see it rendered here!</p>\n</div>",
-        language: "html",
-        theme: "vs-dark",
-      });
-  
+      const editorHtml = monaco.editor.create(
+        document.getElementById("editor_html"),
+        {
+          value:
+            "<div>\n  <h1>Hello, World!</h1>\n  <p>Edit this HTML and see it rendered here!</p>\n</div>",
+          language: "html",
+          theme: "vs-dark",
+        }
+      );
+
       // Monaco Editor for JavaScript
-      const editorJs = monaco.editor.create(document.getElementById("editor_js"), {
-        value: "console.log('Hello, Monaco!');",
-        language: "javascript",
-        theme: "vs-dark",
-      });
-  
+      const editorJs = monaco.editor.create(
+        document.getElementById("editor_js"),
+        {
+          value: "console.log('Hello, Monaco!');",
+          language: "javascript",
+          theme: "vs-dark",
+        }
+      );
+
       // Code execution function
       const runCode = () => {
         const htmlCode = editorHtml.getValue();
         const jsCode = editorJs.getValue();
         const outputHtmlDiv = document.getElementById("output_html");
         const outputJsDiv = document.getElementById("output_js");
-  
+
         // Clear previous content
         outputHtmlDiv.innerHTML = "";
         outputJsDiv.innerHTML = "";
-  
+
         // Customize console.log to output to the output_js div
         const originalConsoleLog = console.log;
         console.log = (...args) => {
@@ -95,11 +120,11 @@
           outputJsDiv.appendChild(logElement);
           originalConsoleLog(...args); // Keep original behavior
         };
-  
+
         try {
           // Inject HTML into the output_html div
           outputHtmlDiv.innerHTML = htmlCode;
-  
+
           // Execute JavaScript
           new Function(jsCode)();
         } catch (err) {
@@ -113,15 +138,20 @@
           console.log = originalConsoleLog;
         }
       };
-  
+
       // 'Run' button click event binding
       document.getElementById("runButton").addEventListener("click", runCode);
-  
+
       // Add Ctrl+Enter shortcut for both editors
       const runShortcut = () => runCode();
-      editorHtml.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, runShortcut);
-      editorJs.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, runShortcut);
+      editorHtml.addCommand(
+        monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+        runShortcut
+      );
+      editorJs.addCommand(
+        monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+        runShortcut
+      );
     </script>
   </body>
-  
 </html>

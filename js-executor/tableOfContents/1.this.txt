@@ -1,0 +1,27 @@
+console.log('Hello, Monaco!');
+
+var obj = {
+    data : 'KIM',
+    함수 : function(){
+        console.log("obj.함수")
+        console.log(this) // 나를 포함하고 있는 오브젝트
+    },
+    double : {
+        함수 : function(){
+        console.log("obj.double.함수")
+        console.log(this) // 나를 포함하고 있는 오브젝트
+        },
+        화살표 : ()=>{
+            console.log("obj.double.함수,화살표")
+            console.log(this) // 나를 포함하고 있는 오브젝트
+        }
+    }
+
+}
+
+console.log(obj.data)
+console.log(obj.함수)
+console.log(obj.함수())
+
+console.log(obj.double.함수()); 
+console.log(obj.double.화살표()); // arrow 는 다르게 표기
