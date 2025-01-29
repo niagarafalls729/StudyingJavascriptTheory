@@ -1,5 +1,9 @@
 console.log('Hello, Monaco!');
 
+
+const 함수 = () =>{
+    console.log('ㅇㅇ함수')
+}
 var obj = {
     data : 'KIM',
     함수 : function(){
@@ -14,6 +18,9 @@ var obj = {
         화살표 : ()=>{
             console.log("obj.double.함수,화살표")
             console.log(this) // 나를 포함하고 있는 오브젝트
+        },
+        함수2 () {
+            console.log("이렇게만들어도됨")
         }
     }
 
@@ -24,4 +31,13 @@ console.log(obj.함수)
 console.log(obj.함수())
 
 console.log(obj.double.함수()); 
+console.log(obj.double.함수2()); 
 console.log(obj.double.화살표()); // arrow 는 다르게 표기
+
+//arrow는 this 값을 새롭게 만드는게 아닌 그전꺼를 그대로 사용함
+//
+
+// window는 그냥 말그대로 전역 이라 생각하면됨
+// 
+함수();
+window.함수();
