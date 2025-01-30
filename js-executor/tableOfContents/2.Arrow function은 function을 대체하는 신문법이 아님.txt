@@ -1,0 +1,69 @@
+// 같음
+function 함수() {
+
+}
+
+var 함수 = function () {
+
+}
+
+
+var 함수 =  () => {
+
+}
+/*********************************************/
+
+var 함수 = (a) => {
+    console.log(a+10)
+}
+
+var 함수2 = a => {
+    console.log(a+10)
+}
+var 함수3 = a => console.log(a+10)
+함수 (1) ;
+함수2 (1) ;
+함수3 (1) ;
+
+
+
+/*********************************************/
+
+
+[1,2,3,4].forEach(function(a){
+    console.log("a",a)
+})
+
+
+[1,2,3,4].forEach( (a) => {
+    console.log("a",a)
+})
+
+[1,2,3,4].forEach( a => {
+    console.log("a",a)
+})
+
+[1,2,3,4].forEach( a =>  console.log("a",a))
+
+
+
+
+
+/*********************************************/
+
+//일반적인 함수면 내부 ,
+//this == e.currentTarget
+document.getElementById('버튼').addEventListener('click', function(e){
+    console.log("this",this)
+})
+
+
+//arrow 하면 this가 window를 참조함, 즉 외부 , 전역
+//this == 바깥의 this, window
+document.getElementById('버튼').addEventListener('click', (e)=> {
+    console.log("this",this)
+    // 쓰고싶으면 아래와같이 
+    e.currentTarget 
+
+})
+
