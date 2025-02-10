@@ -1,0 +1,54 @@
+// =========== 기본
+var 어레이 = [
+    'hello' , 'world'
+]
+console.log(어레이)    // hello,world
+console.log(...어레이) // hello world 대괄호를 제거했다 생각하면 쉬움.
+
+var 문자 ="안녕하세요";
+
+console.log(문자);   // 안녕하세요
+console.log(문자[0]);   // 안  인덱싱
+console.log(...문자);// 안 녕 하 세 요  => "안","녕","하","세","요"
+
+
+
+// =========== 예제
+
+var a = [1,2,3];
+var b = [4,5];
+
+var c = [...a , ...b];
+var d = a + b;
+
+console.log(c)
+console.log(d)
+
+
+//deep copy 할때 유용
+//deepcopy란, 
+
+var a1= [1,2,3];
+var b1= a1;
+var c1= [... a1]
+a1[3] = 4;
+
+console.log(a1) // 1,2,3,4
+console.log(b1) // 1,2,3,4
+// b에는 직접값을 수정한적이없는데 4가 추가되어있음.
+
+console.log(c1) // 1,2,3
+// 깊은복사 - 독립적인 복사
+
+
+var o1 = { a: 1 , b : 2};
+var o2 = { ...o1, a : 55 , c: 3 };
+
+console.log(JSON.stringify(o2))
+
+//var o2 = {  a : 55 , c: 3 , ...o1,}; // 뒤에 있는거로 계산, 이러면 a:1
+
+//실제로 개발 했을때 보면 react, vue 마찬가지로 스프레이드 할때 항상 앞에 있다라고만 했지만 , 
+//이렇게 된다는걸 알게되니 좋음.
+
+
