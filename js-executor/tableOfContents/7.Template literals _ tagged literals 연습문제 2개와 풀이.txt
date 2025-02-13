@@ -1,0 +1,53 @@
+
+
+
+
+var pants = 20;
+var socks = 100;
+
+
+console.log(`바지${pants} 양말${socks}`)
+
+console.log(해체분석기(['바지','양말'],socks,pants))
+
+function 해체분석기(문자들, ...변수){
+    console.log(문자들[0] + 변수[1]);
+    console.log(문자들[1] + 변수[0]);  
+}
+
+ --------------------------------------
+
+var pants = 20;
+var socks = '';
+
+console.log(해체분석기(['바지','양말'], socks, pants));
+
+
+// ES6 기본 매개변수는 오직 undefined일 때만 기본값이 적용되기 때문에, if문처럼 조건을 세밀하게 제어해서 기본값을 설정할 수는 없습니다.
+// 예를 들어, 매개변수에 0이나 빈 문자열처럼 falsy한 값이 들어오면 기본값은 적용되지 않고 그 falsy 값이 그대로 사용됩니다.
+// 만약 falsy한 값일 때도 기본값을 사용하고 싶다면, 함수 내부에서 조건문이나 논리 연산자(예: ||)를 이용해 처리해야 합니다.
+function 해체분석기(문자들, 변수 = '다팔렸어요', 변수1) {
+    console.log(문자들[0] + 변수);
+    console.log(문자들[1] + 변수1);  
+}
+
+해체분석기(['바지','양말'], undefined, 20); // 두 번째 인수로 undefined를 넘기면 기본값 '다팔렸어요'가 사용됩니다.
+해체분석기(['바지','양말'], '', 20);        // 빈 문자열 ''을 넘기면, 기본값은 무시되고 ''가 사용됩니다.
+
+거짓 같은 값(Falsy, falsey로 쓰이기도 함) 값은 Boolean 문맥에서 false로 평가되는 값입니다.
+
+JavaScript는 조건절, 반복문 등 불리언 값이 필요한 곳에서 형 변환을 이용해 특정 값을 불리언 값으로 변환합니다.
+
+다음은 JavaScript의 거짓 같은 값들입니다.
+
+값	타입	설명
+null	Null	null 키워드는 아무런 값도 없음을 의미합니다.
+undefined	Undefined	undefined는 원시값을 의미합니다.
+false	Boolean	false 키워드.
+NaN	Number	NaN은 숫자가 아님을 의미합니다.
+0	Number	The Number 0, 0.0, 0x0 등도 포함합니다.
+-0	Number	The Number 음수 0, -0.0, -0x0 등도 포함합니다.
+0n	BigInt	The BigInt 0, 0x0n 등도 포함합니다. Note that there is no BigInt에 음수 0가 없다는 것에 주목하세요. 0n의 음수 0은 0n입니다.
+""	String	비어있는 string 값, also '' 및 ``도 포함합니다..
+document.all	Object	JavaScript의 유일한 거짓 같은 객체는 내장 document.all입니다.
+null 및 undefined 값은 또한 nullish입니다..
