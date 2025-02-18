@@ -1,0 +1,200 @@
+1. 기본 매개변수 (Default Parameters)
+ES6(ECMAScript 2015)부터 JavaScript에서는 함수의 매개변수에 기본값을 설정할 수 있다.
+
+function 더하기(a, b = 2) {
+    console.log(a + b);
+}
+
+더하기(2); // 2 + 2 = 4
+더하기(2, 5); // 2 + 5 = 7
+
+위 코드에서 b의 기본값을 2로 설정했기 때문에, b를 전달하지 않으면 자동으로 2가 들어가.
+
+
+
+(1) 기본값으로 다른 매개변수를 사용할 때 
+
+function 더하기2(a, b = 2 * a) {
+    console.log(a + b);
+}
+
+더하기2(2); // 2 + (2 * 2) = 6
+더하기2(3, 4); // 3 + 4 = 7
+
+b의 기본값을 2 * a로 설정했기 때문에, b를 생략하면 a 값을 활용해 기본값이 결정됨.
+
+
+(2) 기본값으로 다른 함수의 반환값을 사용할 때 
+
+function 함수() {
+    return 10;
+}
+
+function 더하기4(a, b = 함수()) {
+    console.log(a + b);
+}
+
+더하기4(2); // 2 + 10 = 12
+더하기4(2, 5); // 2 + 5 = 7
+
+이렇게 하면 b에 아무 값도 주지 않으면 함수()가 실행되어 반환값 10이 기본값이 됨.
+
+
+
+(3) 기본값으로 함수 호출을 넣을 때 주의할 점 
+
+function 더하기3(a, b = 더하기()) {
+    console.log(a + b);
+}
+위 함수는 오류가 발생함!
+이유: 더하기() 함수를 실행할 때 매개변수 a와 b가 필요하지만, 기본값을 설정하는 과정에서 호출되어 버리기 때문.
+
+function 더하기(a, b = 2) {
+    console.log(a + b);
+}
+
+더하기3(2); // ❌ 에러 발생 (더하기() 호출 시 매개변수 부족)
+해결 방법: 기본값으로 더하기()의 결과를 넣으려면, 더하기 함수가 매개변수를 필요로 하지 않도록 변경해야 함.
+
+
+function 기본값함수() {
+    return 5;
+}
+
+function 더하기3(a, b = 기본값함수()) {
+    console.log(a + b);
+}
+
+더하기3(2); // 2 + 5 = 7
+
+=====================================================
+
+2. arguments 객체
+arguments 객체는 함수 내에서 전달된 모든 인자를 배열처럼 저장하는 **유사 배열 객체(array-like object)**야.
+
+
+function 함수(a, b, c) {
+    console.log(a, b, c); // 1 2 3
+    console.log(arguments); // [Arguments] { '0': 1, '1': 2, '2': 3 }
+    console.log(JSON.stringify(arguments)); // {"0":1,"1":2,"2":3}
+    console.log(arguments[0]); // 1
+}
+
+함수(1, 2, 3);
+
+
+function 함수(a, b, c) {
+    console.log(a, b, c); // 1 2 3
+    console.log(arguments); // [Arguments] { '0': 1, '1': 2, '2': 3 }
+    console.log(JSON.stringify(arguments)); // {"0":1,"1":2,"2":3}
+    console.log(arguments[0]); // 1
+}
+
+함수(1, 2, 3);
+function 함수() {
+    let args = Array.from(arguments);
+    console.log(args); // [1, 2, 3, 4]
+}
+
+함수(1, 2, 3, 4);
+
+혹은 ES6의 ...rest 문법을 사용하면 더 깔끔하게 해결 가능
+
+function 함수(...args) {
+    console.log(args); // [1, 2, 3, 4]
+}
+
+함수(1, 2, 3, 4);
+
+
+정리
+기본 매개변수 (Default Parameters)
+
+함수의 매개변수에 기본값을 설정 가능
+다른 매개변수나 함수 반환값을 기본값으로 설정할 수도 있음
+단, 기본값으로 함수를 직접 호출할 때는 주의해야 함
+arguments 객체
+
+모든 전달된 인자를 저장하는 유사 배열 객체
+arguments[0], arguments[1]처럼 접근 가능
+배열 메서드를 직접 사용할 수 없으며, Array.from(arguments) 또는 ...args 문법을 활용하면 편리함
+
+
+===========================================================
+
+...args (Rest Parameter, 나머지 매개변수)
+
+function 함수(...args) {
+    console.log(args); // [1, 2, 3, 4]
+}
+
+함수(1, 2, 3, 4);
+
+
+✅ 설명
+...args는 함수에 전달된 모든 인수를 배열로 받음
+즉, args는 [1, 2, 3, 4]라는 **진짜 배열(Array)**이 됨
+arguments 객체와의 차이점
+arguments는 배열이 아니라 유사 배열 객체(array-like object)라서 map, filter 같은 배열 메서드를 바로 못 씀
+...args는 배열이므로 map, filter 등의 메서드를 바로 사용할 수 있음
+
+
+arguments vs ...args 비교
+
+function oldFunction() {
+    console.log(arguments); // [Arguments] { '0': 1, '1': 2, '2': 3 }
+}
+
+function newFunction(...args) {
+    console.log(args); // [1, 2, 3]
+}
+
+oldFunction(1, 2, 3);
+newFunction(1, 2, 3);
+
+
+✅ 차이점
+arguments는 유사 배열 객체이므로 map() 같은 메서드를 바로 못 씀
+...args는 배열이므로 바로 배열 메서드를 사용할 수 있음
+
+function oldFunction() {
+    console.log(Array.from(arguments).map(x => x * 2)); // [2, 4, 6]
+}
+
+function newFunction(...args) {
+    console.log(args.map(x => x * 2)); // [2, 4, 6]
+}
+
+oldFunction(1, 2, 3);
+newFunction(1, 2, 3);
+
+arguments는 Array.from(arguments)로 변환해야 map() 사용 가능
+...args는 바로 map() 가능
+
+
+...args 활용 예제
+
+
+function 소개(first, ...others) {
+    console.log(`첫 번째 인수: ${first}`);
+    console.log(`나머지 인수들:`, others);
+}
+
+소개("안녕", "나는", "개발자야", "반가워!");
+
+// 첫 번째 인수: 안녕
+// 나머지 인수들: [ '나는', '개발자야', '반가워!' ]
+
+
+function 합치기(...arrays) {
+    return arrays.flat(); // 2차원 배열을 1차원으로 평탄화
+}
+
+console.log(합치기([1, 2], [3, 4], [5, 6])); // [1, 2, 3, 4, 5, 6]
+
+
+결론 
+
+function 함수(...args) {} 형태로 선언하면 모든 인자를 배열로 받을 수 있음
+arguments보다 더 편리하고, 배열 메서드를 바로 쓸 수 있음
+가변 인수 함수, 배열 결합 등 여러 상황에서 활용 
