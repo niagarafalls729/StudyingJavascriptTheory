@@ -1,0 +1,208 @@
+🔹 배열(Array) 관련 반복문 & 메서드
+1️⃣ forEach()
+✔ 반복 실행(단순 순회, return 없음)
+✔ break, continue 사용 불가
+
+const arr = [1, 2, 3];
+arr.forEach((item, index) => {
+  console.log(index, item); // 0 1, 1 2, 2 3
+});
+
+
+2️⃣ map()
+✔ 새로운 배열 반환(기존 배열 유지)
+✔ 요소 변환(데이터 가공, 매핑)
+const arr = [1, 2, 3];
+const newArr = arr.map(item => item * 2);
+console.log(newArr); // [2, 4, 6]
+
+
+3️⃣ filter()
+✔ 조건을 만족하는 요소만 반환
+✔ 원본 배열 유지
+const arr = [1, 2, 3, 4, 5];
+const filteredArr = arr.filter(item => item > 2);
+console.log(filteredArr); // [3, 4, 5]
+
+
+4️⃣ some() / every()
+✔ 조건 충족 여부 확인 (Boolean 반환)
+✔ some() → 하나라도 true면 true
+✔ every() → 모두 true여야 true
+
+const arr = [1, 2, 3, 4];
+
+console.log(arr.some(item => item > 3)); // true
+console.log(arr.every(item => item > 0)); // true
+console.log(arr.every(item => item > 3)); // false
+
+
+5️⃣ find() / findIndex()
+✔ 조건을 만족하는 첫 번째 요소 찾기
+✔ find() → 요소 반환
+✔ findIndex() → 인덱스 반환
+
+const arr = [{ id: 1 }, { id: 2 }, { id: 3 }];
+
+console.log(arr.find(item => item.id === 2)); // { id: 2 }
+console.log(arr.findIndex(item => item.id === 2)); // 1
+
+6️⃣ reduce()
+✔ 누적 연산(합계, 평균, 개수 세기 등)
+ 
+const arr = [1, 2, 3, 4];
+const sum = arr.reduce((acc, cur) => acc + cur, 0);
+console.log(sum); // 10
+
+🔹 객체(Object) 관련 반복문
+7️⃣ for...in
+✔ 객체 속성(key) 순회
+✔ 배열에도 사용 가능하지만, forEach / map 사용 권장
+  
+const obj = { a: 1, b: 2, c: 3 };
+
+for (const key in obj) {
+  console.log(key, obj[key]); // a 1, b 2, c 3
+}
+
+
+8️⃣ Object.keys() / Object.values() / Object.entries()
+✔ 객체 데이터를 배열처럼 다룰 때 사용
+ 
+const obj = { a: 1, b: 2, c: 3 };
+
+console.log(Object.keys(obj)); // ["a", "b", "c"]
+console.log(Object.values(obj)); // [1, 2, 3]
+console.log(Object.entries(obj)); // [["a", 1], ["b", 2], ["c", 3]]
+
+
+🔹 전통적인 반복문
+9️⃣ for
+✔ 가장 기본적인 반복문
+✔ break / continue 사용 가능
+
+for (let i = 0; i < 5; i++) {
+  console.log(i); // 0, 1, 2, 3, 4
+}
+
+
+
+🔟 for...of
+✔ 배열, 문자열, Set, Map 등을 순회
+ 
+const arr = ["a", "b", "c"];
+for (const value of arr) {
+  console.log(value); // "a", "b", "c"
+}
+
+
+
+
+
+📌 정리
+메서드                   반환값	        주요 용도
+forEach()	            없음	       단순 반복 (UI 렌더링, 로그)
+map()	                배열	       데이터 변환 (UI 가공)
+filter()	            배열	       조건에 맞는 요소만 필터링
+some() / every()	    Boolean 	   조건 충족 여부 확인
+find() / findIndex()	요소 / 인덱스	특정 요소 찾기
+reduce()	            값	            누적 계산 (합계, 개수 세기)
+for...in	            key	            객체 key 순회
+Object.keys()	        배열	        객체 key 배열 변환
+Object.values()	        배열	        객체 value 배열 변환
+Object.entries()	    배열	        객체 key-value 배열 변환
+for	                    없음	        성능이 중요한 경우
+for...of	            없음	        배열, Set, Map 등 순회
+
+
+---------------------------------------------------
+하다보니 모든 for로 시작하는 for ( 선회,배열 및 이터러블 순회 관련 ) 정리 한번더
+
+
+
+2️⃣ forEach() (배열 전용, 가장 자주 씀)
+✔ 배열 요소 순회
+✔ break, continue 사용 불가능
+✔ return 하면 전체 루프 종료가 아니라 현재 반복만 종료됨
+ 
+const arr = [1, 2, 3];
+
+arr.forEach((value, index) => {
+  console.log(index, value); // 0 1, 1 2, 2 3
+});
+ 
+const arr = [ 
+    {name: 'k', age : 1},
+    {name: 'b', age : 2},
+    {name: 'c', age : 3}
+    ]
+
+arr.forEach((value, index) => {
+  console.log(index, ":",value.name); 
+  console.log(Object.entries(value))
+});
+0 : k
+1 : b
+2 : c
+name,k,age,1
+name,b,age,2
+name,c,age,3
+
+
+
+
+3️⃣ for...in (객체 key 순회)
+✔ 객체의 key를 순회 (Object.keys()와 유사)
+✔ 배열에도 사용 가능하지만 권장되지 않음 (배열은 forEach()나 map() 사용)
+
+
+
+const obj = { a: 1, b: 2, c: 3 };
+
+for (const key in obj) {
+  console.log(key, obj[key]); // "a" 1, "b" 2, "c" 3
+}
+
+
+
+
+
+
+4️⃣ for...of (이터러블 순회)
+✔ 배열, 문자열, Set, Map 등 이터러블 순회
+✔ forEach()보다 break / continue 사용 가능
+
+const arr = ["a", "b", "c"];
+
+for (const value of arr) {
+  console.log(value); // "a", "b", "c"
+}
+
+const str = "hello";
+for (const char of str) {
+  console.log(char); // "h", "e", "l", "l", "o"
+}
+📌 정리: 모든 for 문 비교
+문법	        주요 용도	    특징
+for	일정        횟수 반복	    가장 기본적인 반복문
+forEach()	    배열 순회	    break, continue 사용 불가
+for...in	    객체 key 순회	Object.keys()와 비슷
+for...of	    이터러블 순회	break, continue 사용 가능   
+
+const arr = [ 
+    {name: 'k', age : 1},
+    {name: 'b', age : 2},
+    {name: 'c', age : 3}
+    ]
+ 
+for (const item of arr) {
+  if (item.age === 3) break;  // 나이가 2면 루프 중단 가능
+  console.log(item.name);
+}
+arr.forEach((item, index) => {
+  
+  console.log(index,":",item.name);
+});
+for (const key in arr) {
+  console.log(key,":", arr[key].name);
+}
