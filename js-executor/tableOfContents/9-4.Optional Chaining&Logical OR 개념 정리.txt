@@ -1,0 +1,87 @@
+?. (Optional Chaining) & || (Logical OR) 개념 정리
+
+
+🔹 ?. (Optional Chaining)
+객체나 요소가 null 또는 undefined일 경우 오류 없이 안전하게 접근하는 연산자
+
+✅ 사용 예시
+ 
+const obj = { name: "Kim", info: { age: 30 } };
+
+console.log(obj.info?.age);  // 30 (정상 출력)
+console.log(obj.info?.phone); // undefined (오류 없이 안전하게 처리)
+console.log(obj.contact?.email); // undefined (오류 발생하지 않음)
+
+🚨 ?.이 없을 경우 
+console.log(obj.contact.email); // ❌ TypeError 발생 (obj.contact가 없기 때문)
+
+💡 언제 사용하면 좋을까?
+객체의 특정 속성이 존재할 수도 있고 없을 수도 있을 때
+querySelector() 결과가 null일 수도 있을 때 (예: document.querySelector(".class")?.value)
+
+
+🔹 || (Logical OR)
+왼쪽 값이 false(Falsy)일 경우, 오른쪽 값을 대신 사용하는 연산자
+
+Falsy 값 목록: false, 0, ""(빈 문자열), null, undefined, NaN
+
+✅ 사용 예시
+const name = "";
+const userName = name || "Guest";  // name이 빈 문자열("")이므로 "Guest"가 사용됨
+console.log(userName); // "Guest"
+
+const age = 0;
+const userAge = age || 18; // age가 0이므로 기본값 18 적용
+console.log(userAge); // 18
+
+🚨 ||의 주의점 
+console.log(false || "default"); // "default"
+console.log(0 || 100); // 100
+console.log("" || "empty"); // "empty"
+console.log(null || "fallback"); // "fallback"
+console.log(undefined || "backup"); // "backup"
+
+💡 언제 사용하면 좋을까?
+값이 null이거나 undefined일 때 기본값을 설정하고 싶을 때
+예를 들어, <input> 값이 없을 경우 기본값을 설정할 때
+
+
+🔹 ?. + || 함께 사용하기
+안전하게 값을 가져오되, 값이 없으면 기본값을 설정하는 패턴
+const obj = { name: "Kim" };
+
+const age = obj.info?.age || 25; // obj.info가 없으므로 기본값 25 사용
+console.log(age); // 25
+
+const phone = obj.contact?.phone || "010-0000-0000"; // obj.contact가 없으므로 기본값 적용
+console.log(phone); // "010-0000-0000"
+
+////////////////////////////
+
+
+?? 와 || 차이
+
+한마디로 심플하게 보자면
+??  (Nullish Coalescing - 널 병합 연산자)
+왼쪽 값이 null 또는 undefined일 때만 오른쪽 값을 사용
+||와 달리 0, "", false는 유효한 값으로 인정함
+
+
+/////////////////////////
+console.log(false || "default"); // "default"
+console.log(false ?? "backup"); // false (✅ false도 유효한 값)
+
+console.log(0 || 100); // 100
+console.log(0 ?? 100); // 0 (✅ 0은 유효한 값으로 인정됨)
+
+console.log("" || "empty"); // "empty"
+console.log("" ?? "empty"); // "" (✅ 빈 문자열도 유효한 값)
+
+console.log(null || "fallback"); // "fallback"
+console.log(null ?? "default"); // "default"
+
+console.log(undefined ?? "fallback"); // "fallback"
+console.log(undefined || "backup"); // "backup"
+
+//아쉬운게 업무적으로 쓰면 || 만쓰면안됨? 이러고 싶지만
+fasle는 ?? 로 해야함으로... 현실적으로는 ?? 를 더쓸듯. 물론 차이점을 알고 정확하게쓰는게 젤 좋긴함
