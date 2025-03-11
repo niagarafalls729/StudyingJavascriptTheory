@@ -1,0 +1,81 @@
+1. 클로저(Closure)
+정의:
+클로저는 함수와 그 함수가 선언된 렉시컬 환경(Lexical Environment)의 조합입니다.
+즉, 내부 함수가 외부 함수의 변수에 접근할 수 있는 개념입니다.
+
+예제: 
+function outer() {
+  let count = 0; // 외부 함수의 변수
+
+  function inner() {
+    count++; // 외부 함수의 변수에 접근
+    console.log(count);
+  }
+
+  return inner;
+}
+
+const counter = outer(); // outer 실행 후 inner를 반환
+counter(); // 1
+counter(); // 2
+counter(); // 3
+설명:
+outer 함수 실행 시, 내부 inner 함수를 반환합니다.
+counter 변수에는 inner 함수가 저장됩니다.
+counter()를 실행할 때마다 count 변수의 값을 증가시키고 출력합니다.
+count 변수는 outer 함수가 실행된 후에도 GC(가비지 컬렉션) 되지 않고 유지됩니다.
+→ 이것이 클로저의 핵심 개념입니다!
+
+
+2. 실행 컨텍스트(Execution Context)
+정의:
+자바스크립트 코드가 실행될 때 생성되는 환경으로,
+아래 3가지 요소로 구성됩니다.
+
+변수 객체(Variable Object, VO)
+→ 함수 내부의 변수, 함수 선언 등을 포함
+
+스코프 체인(Scope Chain)
+→ 현재 실행 중인 컨텍스트와 상위 컨텍스트를 참조하는 연결 고리
+
+this 값
+→ 실행 컨텍스트에서의 this 바인딩
+
+예제: 
+function outer() {
+  let a = 10; // outer 실행 컨텍스트의 변수
+
+  function inner() {
+    let b = 20; // inner 실행 컨텍스트의 변수
+    console.log(a + b); // inner가 outer의 변수 `a`에 접근 가능
+  }
+
+  inner(); // 실행 시 새로운 실행 컨텍스트 생성
+}
+
+outer();
+실행 컨텍스트 흐름
+전역 컨텍스트 생성 (스크립트 실행 시작)
+
+outer 함수가 메모리에 등록됨
+outer 실행 컨텍스트 생성
+
+a = 10 저장
+inner 함수가 메모리에 등록됨
+inner 실행 컨텍스트 생성
+
+b = 20 저장
+console.log(a + b) 실행 (스코프 체인을 통해 a 접근 가능)
+inner 실행 종료 후 컨텍스트 제거
+
+outer 실행 종료 후 컨텍스트 제거
+
+전역 컨텍스트만 남음
+
+
+요약
+✔ 클로저 → 함수가 외부 스코프의 변수를 기억하여 유지하는 개념
+✔ 실행 컨텍스트 → 코드 실행 시 변수 객체, 스코프 체인, this 등을 포함하는 실행 환경
+
+이제 클로저와 실행 컨텍스트를 이해하면, 비동기 처리나 메모리 관리 등에서 활용할 수 있습니다! 🚀
+
