@@ -57,3 +57,131 @@ console.log(학생2);  // 기계 { name: 'Kim', age: 15 }
 ✅ constructor(이름) 내부에서 객체 초기화 (this.name = 이름;)
 ✅ 메서드 (sayHi())는 prototype에 저장되어 중복 생성 방지
 ✅ new 키워드를 사용하여 객체 생성 가능
+
+-----------------------------------------
+클래스 다시 한번
+
+1. 기본적인 클래스 정의 
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  introduce() {
+    console.log(`안녕하세요, 저는 ${this.name}이고, 나이는 ${this.age}살입니다.`);
+  }
+}
+
+// 인스턴스 생성
+const person1 = new Person("김철수", 25);
+const person2 = new Person("이영희", 30);
+
+person1.introduce(); // 안녕하세요, 저는 김철수이고, 나이는 25살입니다.
+person2.introduce(); // 안녕하세요, 저는 이영희이고, 나이는 30살입니다.
+
+✅ class 키워드 사용
+✅ constructor() 안에서 인스턴스의 속성 정의 (this.name, this.age)
+✅ 메서드는 따로 function 키워드 없이 정의
+
+
+2. 클래스의 상속 (Inheritance)
+클래스를 확장(상속)하여 새로운 클래스를 만들 수 있다.
+
+class Student extends Person {
+
+  constructor(name, age, studentId) {
+    super(name, age); // 부모 클래스(Person)의 생성자 호출
+    this.studentId = studentId;
+  }
+
+  study() {
+    console.log(`${this.name} 학생이 공부하고 있습니다.`);
+  }
+}
+
+const student1 = new Student("박지성", 20, "20240123");
+
+student1.introduce(); // 부모 클래스의 메서드 사용 가능
+// 안녕하세요, 저는 박지성이고, 나이는 20살입니다.
+
+student1.study(); // 박지성 학생이 공부하고 있습니다.
+
+
+3. 정적 메서드 (Static Method)
+인스턴스 없이 클래스 자체에서 호출할 수 있는 메서드
+
+class MathUtil {
+  static add(a, b) {
+    return a + b;
+  }
+}
+
+console.log(MathUtil.add(5, 3)); // 8
+
+
+✅ static 키워드를 사용하면 클래스 자체에서 바로 호출 가능
+✅ 인스턴스 생성 없이 사용 → new MathUtil() 필요 없음
+
+
+
+4. Getter & Setter
+특정 속성을 직접 변경하지 않고, 메서드를 통해 값을 설정하고 가져오도록 함
+
+
+
+class User {
+  constructor(username) {
+    this._username = username;
+  }
+
+  get username() {
+    return this._username;
+  }
+
+  set username(newUsername) {
+    if (newUsername.length < 3) {
+      console.log("이름은 최소 3글자 이상이어야 합니다.");
+    } else {
+      this._username = newUsername;
+    }
+  }
+}
+
+const user = new User("kim");
+
+console.log(user.username); // kim
+
+user.username = "jo"; // 이름은 최소 3글자 이상이어야 합니다.
+user.username = "john"; // 정상 변경
+
+console.log(user.username); // john
+
+✅ get 키워드로 값을 가져올 때 user.username처럼 사용 가능
+✅ set 키워드로 값을 설정할 때 검증 로직을 추가 가능
+
+
+5. private 필드 (#)
+ES2020부터 도입된 비공개(private) 속성
+
+class Account {
+  #password; // private 필드 선언
+
+  constructor(username, password) {
+    this.username = username;
+    this.#password = password;
+  }
+
+  checkPassword(inputPassword) {
+    return this.#password === inputPassword;
+  }
+}
+
+const account = new Account("user1", "secret123");
+
+console.log(account.username); // user1
+console.log(account.password); // undefined (외부에서 접근 불가)
+console.log(account.checkPassword("wrongpass")); // false
+console.log(account.checkPassword("secret123")); // true
+✅ #password는 클래스 내부에서만 접근 가능
+✅ 외부에서는 직접 account.#password 접근 불가

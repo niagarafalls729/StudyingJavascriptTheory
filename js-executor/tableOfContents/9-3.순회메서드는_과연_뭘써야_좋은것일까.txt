@@ -184,7 +184,7 @@ for (const char of str) {
 }
 📌 정리: 모든 for 문 비교
 문법	        주요 용도	    특징
-for	일정        횟수 반복	    가장 기본적인 반복문
+for	일정      횟수 반복	    가장 기본적인 반복문
 forEach()	    배열 순회	    break, continue 사용 불가
 for...in	    객체 key 순회	Object.keys()와 비슷
 for...of	    이터러블 순회	break, continue 사용 가능   
