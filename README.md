@@ -11,23 +11,74 @@
 
 ## 📂 디렉토리 구조  
 ```
-.
-├── README.md         # 프로젝트 소개 및 가이드
-├── 01_basics/        # JavaScript 기본 개념
-│   ├── variables.md  # 변수와 상수
-│   ├── data-types.md # 데이터 타입
-│   ├── operators.md  # 연산자
-├── 02_advanced/      # 고급 주제
-│   ├── closures.md   # 클로저
-│   ├── promises.md   # 프로미스와 비동기
-│   ├── this.md       # this 키워드
-├── src/              # 에디터 폴더
-│   ├── main.js       # 에디터 실행용 js
-│   ├── style.css     # 에디터 css
-└── index.html        # 에디터 실행용
+📂 js-executor
+├── 📂 node_modules
+├── 📂 tableOfContents
+│   ├── 1.this.txt
+│   ├── 2.Arrow function은 function을 대체하는 신문법이 아님.txt
+│   ├── 3.변수 신문법 총정리 1. var let const와 선언,범위,호.txt
+│   ├── 4.변수 신문법 총정리 2. Hoisting, 전역변수, 참조.txt
+│   ├── 5.자바스크립트가 문자 다루는 신기한 방법 (template literals).txt
+│   ├── 6.모든 괄호를 없애주는 Spread Operator 활용 방법.txt
+│   ├── 7.Template literals , tagged literals 연습문제 2개와 정.txt
+│   ├── 8.Spread Operator 활용방법 & apply, call 함수 알아보기.txt
+│   ├── 9-1.내가왜업무에서는...args를 잘안쓸까.txt
+│   ├── 9-2.spreadOperatorVSrestParameter.txt
+│   ├── 9-3.순회메서드는_과연_뭘써야_좋은것일까.txt
+│   ├── 9-4.Optional Chaining&Logical OR 개념 정리.txt
+│   ├── 9-5.Promise와 async,await 쉽게 이해하기.txt
+│   ├── 9자바스크립트 함수 업그레이드하기[default parameter,arguments.txt
+│   ├── 10.이상한 Reference data type과 더 이상한 예제 3개.txt
+├── index.html
+├── package.json
+├── package-lock.json
+├── vite.config.js
+├── .gitignore
+└── README.md
 ```
 
 
+
+## 📂 강의 후 따로 정리 학습 순서
+✅ ES7 (2016)
+Array.prototype.includes
+Exponentiation Operator (**)
+✅ ES8 (2017)
+async/await
+Object.values() / Object.entries()
+String.prototype.padStart() / padEnd()
+SharedArrayBuffer & Atomics
+✅ ES9 (2018)
+Rest/Spread properties
+Promise.prototype.finally()
+Regex 개선 (dotAll, named capture groups 등)
+✅ ES10 (2019)
+Array.prototype.flat() / flatMap()
+Object.fromEntries()
+String.prototype.trimStart() / trimEnd()
+Optional catch binding
+BigInt
+✅ ES11 (2020)
+Optional Chaining (?.)
+Nullish Coalescing Operator (??)
+Promise.allSettled()
+String.prototype.matchAll()
+globalThis
+Dynamic Import (import())
+✅ ES12 (2021)
+Logical Assignment Operators (??=, ||=, &&=)
+String.prototype.replaceAll()
+Promise.any()
+WeakRefs & FinalizationRegistry
+✅ ES13 (2022)
+Top-level await
+Class Fields & Static Initialization Blocks
+Array.prototype.at()
+✅ ES14 (2023)
+Array findLast() / findLastIndex()
+Symbol.prototype.description
+Set methods (union, intersection, difference 등)
+Hashbang (#!)
  
 
 ## 📜 주요 학습 내용  
