@@ -1,0 +1,45 @@
+✅ 클로저(Closure)란?
+클로저란 내부 함수가 외부 함수의 변수에 접근할 수 있는 개념 이다.
+즉, 함수가 생성될 때 주변 상태(변수)를 기억하고, 이후에도 접근할 수 있는 것을 의미한다.
+
+function createCounter() {
+  let count = 0; // 외부에서 직접 접근 불가
+
+  return {
+    increase() {
+      count++;
+      console.log(count);
+    },
+    decrease() {
+      count--;
+      console.log(count);
+    },
+    getCount() {
+      return count;
+    }
+  };
+}
+
+const counter = createCounter();
+counter.increase(); // 1
+counter.increase(); // 2
+counter.decrease(); // 1
+console.log(counter.getCount()); // 1
+ 
+
+
+outer 함수가 실행되면 count 변수가 생성된다.
+inner 함수가 count를 사용하고 있으며, outer 함수가 종료된 후에도 count 값이 유지된다.
+counter()를 호출할 때마다 count 값이 증가하는 것을 확인할 수 있다.
+
+const counter2 = createCounter();
+counter2.increase(); // 1
+counter2.increase(); // 2  
+counter2.increase(); // 3  
+
+다른객체 , 다른 count
+
+이걸 클로저의 독립적 실행 컨텍스트 라고함
+
+
+한마디로 그냥 우리가 항상 코딩하면서 늘 알고 있던건데 용어만 어려움.
