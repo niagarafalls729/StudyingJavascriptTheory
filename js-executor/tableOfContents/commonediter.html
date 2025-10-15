@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Console Output to HTML</title>
+    <style>
+      body {
+        background: #111;
+      }
+      #log {
+        background: #111;
+        border: #0f0 solid 2px;
+        color: #0f0;
+        font-family: monospace;
+        padding: 10px;
+        height: 90vh;
+
+        overflow-y: auto;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="log"></div>
+    <script>
+      const originalLog = console.log;
+      console.log = function (...args) {
+        originalLog.apply(console, args);
+
+        const logDiv = document.getElementById("log");
+
+        const msg = args
+          .map((a) => {
+            if (typeof a === "object") {
+              try {
+                return JSON.stringify(a, null, 2); // 보기 좋게 들여쓰기
+              } catch (e) {
+                return String(a);
+              }
+            }
+            return String(a);
+          })
+          .join(" ");
+
+        const pre = document.createElement("pre");
+        pre.textContent = msg;
+        logDiv.appendChild(pre);
+        logDiv.scrollTop = logDiv.scrollHeight;
+      };
+    </script>
+    <script src="12.객체지향2.js"></script>
+  </body>
+</html>
