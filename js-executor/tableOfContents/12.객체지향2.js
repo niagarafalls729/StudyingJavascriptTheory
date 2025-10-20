@@ -35,3 +35,30 @@ arr.sort();
 // 예를들어 이런 arr 이라는 배열이 있다 치자 근데 sort 는 어떻게 쓰는걸까
 // arr.sort() 라고 쓰면 arr 이라는 객체의 prototype을 참조함
 // 즉 arr.sort() 라고 쓰면 Array.prototype.sort() 라고 쓰는거임
+
+//부모 프로토타입 바로 체크 가능
+console.log(학생1.__proto__);
+//부모의부모의부모면
+console.log(학생1.__proto__.__proto__);
+//이런식으로 계속 올라가면서 체크 가능
+
+console.log("--------------------------------------");
+
+var obj = {};
+var proto = {
+  sayHi() {
+    console.log("안녕");
+  },
+};
+Object.setPrototypeOf(obj, proto);
+obj.sayHi();
+console.log(obj.__proto__); //{ sayHi: [Function: sayHi] }
+console.log(obj.__proto__ === proto); //true
+//obj 라는 객체의 부모를 proto 라는 객체로 지정해줌
+//이렇게도 부모지정 가능
+//근데 이건 잘안씀 ㅋ
+
+console.log("--------------------------------------");
+var 부모 = { name: "엄마" };
+var 자식 = Object.create(부모);
+console.log(자식.name); //엄마
